@@ -57,11 +57,28 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     public override init(frame: CGRect) {
-        leftView = ContentViewType.init(frame: CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
-        centerView = ContentViewType.init(frame: CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height))
-        rightView = ContentViewType.init(frame: CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height))
+        leftView = ContentViewType.init(frame: CGRect.zero)
+        centerView = ContentViewType.init(frame: CGRect.zero)
+        rightView = ContentViewType.init(frame: CGRect.zero)
         tapGesture = UITapGestureRecognizer.init()
         super.init(frame: frame)
+        initViews()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        leftView = ContentViewType.init(frame: CGRect.zero)
+        centerView = ContentViewType.init(frame: CGRect.zero)
+        rightView = ContentViewType.init(frame: CGRect.zero)
+        tapGesture = UITapGestureRecognizer.init()
+        super.init(coder: aDecoder)
+        initViews()
+    }
+    
+    public func initViews(){
+        leftView.frame = CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+        centerView.frame = CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height)
+        rightView.frame = CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height)
+        
         addSubview(leftView)
         addSubview(centerView)
         addSubview(rightView)
@@ -80,9 +97,6 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
         contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     func addGesture(){
         if clickEnable{

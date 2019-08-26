@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -109,7 +109,6 @@
 				D412F56B26106F86935B0BB5 /* Pods-PageViewControllerDemoUITests.debug.xcconfig */,
 				11876BC3EF5D567C98B97E6D /* Pods-PageViewControllerDemoUITests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -126,7 +125,7 @@
 		516BA6C22306A09000B78A5D = {
 			isa = PBXGroup;
 			children = (
-				516BA6CD2306A09000B78A5D /* PageViewControllerDemo */,
+				516BA6CD2306A09000B78A5D /* LQSwipeProject */,
 				516BA6E22306A09100B78A5D /* PageViewControllerDemoTests */,
 				516BA6ED2306A09100B78A5D /* PageViewControllerDemoUITests */,
 				516BA6CC2306A09000B78A5D /* Products */,
@@ -145,7 +144,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		516BA6CD2306A09000B78A5D /* PageViewControllerDemo */ = {
+		516BA6CD2306A09000B78A5D /* LQSwipeProject */ = {
 			isa = PBXGroup;
 			children = (
 				5184A88F230A32980094421C /* Classes */,
@@ -159,7 +158,7 @@
 				516BA6FE2306A0D100B78A5D /* PageTwoViewController.swift */,
 				516BA7002306A0DB00B78A5D /* PageThreeViewController.swift */,
 			);
-			path = PageViewControllerDemo;
+			path = LQSwipeProject;
 			sourceTree = "<group>";
 		};
 		516BA6E22306A09100B78A5D /* PageViewControllerDemoTests */ = {
@@ -593,7 +592,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = PageViewControllerDemo/Info.plist;
+				INFOPLIST_FILE = LQSwipeProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -611,7 +610,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = PageViewControllerDemo/Info.plist;
+				INFOPLIST_FILE = LQSwipeProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
