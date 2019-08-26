@@ -34,7 +34,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     open var tapGesture:UITapGestureRecognizer
     
     open var loop:Bool = false
-    open var timeInterval:TimeInterval = 0
+    open var timeInterval:TimeInterval = 3
     private var timer:Timer?
     
     open var clickEnable = false {
@@ -57,11 +57,13 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     public override init(frame: CGRect) {
-        leftView = ContentViewType.init(frame: CGRect.zero)
-        centerView = ContentViewType.init(frame: CGRect.zero)
-        rightView = ContentViewType.init(frame: CGRect.zero)
+        leftView = ContentViewType.init(frame: CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
+        centerView = ContentViewType.init(frame: CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height))
+        rightView = ContentViewType.init(frame: CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height))
         tapGesture = UITapGestureRecognizer.init()
         super.init(frame: frame)
+        contentSize = CGSize.init(width: frame.size.width * 3, height: frame.size.height)
+        contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
         initViews()
     }
     
@@ -75,10 +77,6 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     public func initViews(){
-        leftView.frame = CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
-        centerView.frame = CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height)
-        rightView.frame = CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height)
-        
         addSubview(leftView)
         addSubview(centerView)
         addSubview(rightView)
@@ -89,12 +87,20 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
         centerView.autoresizingMask = [.flexibleLeftMargin,.flexibleHeight]
         rightView.autoresizingMask = [.flexibleLeftMargin,.flexibleHeight]
         
-        
         showsHorizontalScrollIndicator = false
         isPagingEnabled = true
         delegate = self
-        contentSize = CGSize.init(width: frame.size.width * 3, height: frame.size.height)
-        contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        if leftView.frame.size.width == 0{
+            leftView.frame = CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+            centerView.frame = CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height)
+            rightView.frame = CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height)
+            contentSize = CGSize.init(width: frame.size.width * 3, height: frame.size.height)
+            contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
+        }
     }
     
     
@@ -111,7 +117,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     
-    func startLoop(){
+    public  func startLoop(){
         guard loop else{
             return
         }
@@ -123,7 +129,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
         timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(selectNextPage(timer:)), userInfo: nil, repeats: true)
     }
     
-    func stopLoop(){
+    public func stopLoop(){
         if timer == nil {
             return
         }
@@ -160,7 +166,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
 
 extension LQSwipeView{
     
-    func initContentView() {
+    public func initContentView() {
         var leftIndex = 0,centerIndex = 0,rightIndex = 0
         guard let pageCount = swipeDataSource?.swipeViewPageCount() else{
             return
@@ -196,7 +202,7 @@ extension LQSwipeView{
     
     
     
-    func updateViews(){
+    public func updateViews(){
         let flag = getFlag()
         let leftIndex = checkIndex(viewTag: leftView.tag + flag)
         let centerIndex = checkIndex(viewTag: centerView.tag + flag)

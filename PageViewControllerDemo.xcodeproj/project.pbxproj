@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4EF86DA59911CBF998FBDBAD /* Pods_PageViewControllerDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD464A22161366B66CDF4F51 /* Pods_PageViewControllerDemoUITests.framework */; };
+		513CB0402313BD850083E71E /* LQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513CB03F2313BD850083E71E /* LQViewController.swift */; };
+		513CB0422313BDC80083E71E /* LQSwipeDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513CB0412313BDC80083E71E /* LQSwipeDemoView.swift */; };
 		516BA6CF2306A09000B78A5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516BA6CE2306A09000B78A5D /* AppDelegate.swift */; };
 		516BA6D12306A09000B78A5D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516BA6D02306A09000B78A5D /* ViewController.swift */; };
 		516BA6D42306A09000B78A5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 516BA6D22306A09000B78A5D /* Main.storyboard */; };
@@ -45,6 +47,8 @@
 		11876BC3EF5D567C98B97E6D /* Pods-PageViewControllerDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageViewControllerDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-PageViewControllerDemoUITests/Pods-PageViewControllerDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		1445678C4B96D1D269B05ACA /* Pods-PageViewControllerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageViewControllerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-PageViewControllerDemoTests/Pods-PageViewControllerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		4987D5A18CF28F3F7375D642 /* Pods-PageViewControllerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageViewControllerDemo.debug.xcconfig"; path = "Target Support Files/Pods-PageViewControllerDemo/Pods-PageViewControllerDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		513CB03F2313BD850083E71E /* LQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LQViewController.swift; sourceTree = "<group>"; };
+		513CB0412313BDC80083E71E /* LQSwipeDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LQSwipeDemoView.swift; sourceTree = "<group>"; };
 		516BA6CB2306A09000B78A5D /* PageViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PageViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		516BA6CE2306A09000B78A5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		516BA6D02306A09000B78A5D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +161,8 @@
 				516BA6FC2306A0B300B78A5D /* PageOneViewController.swift */,
 				516BA6FE2306A0D100B78A5D /* PageTwoViewController.swift */,
 				516BA7002306A0DB00B78A5D /* PageThreeViewController.swift */,
+				513CB03F2313BD850083E71E /* LQViewController.swift */,
+				513CB0412313BDC80083E71E /* LQSwipeDemoView.swift */,
 			);
 			path = LQSwipeProject;
 			sourceTree = "<group>";
@@ -413,7 +419,9 @@
 				516BA6FF2306A0D100B78A5D /* PageTwoViewController.swift in Sources */,
 				516BA7072306B5E700B78A5D /* LQPageViewController.swift in Sources */,
 				516BA6FD2306A0B300B78A5D /* PageOneViewController.swift in Sources */,
+				513CB0422313BDC80083E71E /* LQSwipeDemoView.swift in Sources */,
 				516BA6D12306A09000B78A5D /* ViewController.swift in Sources */,
+				513CB0402313BD850083E71E /* LQViewController.swift in Sources */,
 				5184A891230A33330094421C /* LQSwipeView.swift in Sources */,
 				516BA6CF2306A09000B78A5D /* AppDelegate.swift in Sources */,
 			);

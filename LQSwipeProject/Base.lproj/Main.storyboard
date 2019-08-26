@@ -1,20 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="y9T-Xw-4Yo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="O3k-7h-EXJ">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
-        <scene sceneID="fxa-mD-7JS">
+        <scene sceneID="gho-LJ-Bnh">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="y9T-Xw-4Yo" customClass="ViewController" customModule="PageViewControllerDemo" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kUh-i6-6BQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="O3k-7h-EXJ" customClass="LQViewController" customModule="PageViewControllerDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kx6-T2-Kwf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qVp-7d-aI8" customClass="LQSwipeDemoView" customModule="PageViewControllerDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="QcT-Jj-Mzv"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qVp-7d-aI8" firstAttribute="leading" secondItem="3hu-3c-Hha" secondAttribute="leading" id="U5G-oI-2OT"/>
+                            <constraint firstItem="3hu-3c-Hha" firstAttribute="trailing" secondItem="qVp-7d-aI8" secondAttribute="trailing" id="Upx-rA-6Xh"/>
+                            <constraint firstItem="qVp-7d-aI8" firstAttribute="top" secondItem="3hu-3c-Hha" secondAttribute="top" id="hW6-jK-auG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3hu-3c-Hha"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lyV-89-TbD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6" y="204"/>
+            <point key="canvasLocation" x="-203" y="246"/>
         </scene>
     </scenes>
 </document>
