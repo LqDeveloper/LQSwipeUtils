@@ -126,7 +126,11 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
             return
         }
         
-        timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(selectNextPage(timer:)), userInfo: nil, repeats: true)
+        timer = Timer.init(timeInterval: timeInterval, target: self, selector: #selector(selectNextPage(timer:)), userInfo: nil, repeats: true)
+        guard let tim = timer else {
+            return
+        }
+        RunLoop.current.add(tim, forMode: .common)
     }
     
     public func stopLoop(){
