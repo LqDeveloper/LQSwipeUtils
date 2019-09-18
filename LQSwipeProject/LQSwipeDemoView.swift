@@ -12,27 +12,29 @@ class LQSwipeDemoView: LQSwipeView<UIView> {
     var imageArray:[UIImage?]?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.timeInterval = 3
         self.loop = true
+        self.clickEnable = true
         self.swipeDataSource = self
         self.swipeDelegate = self
         self.startLoop()
     }
-    
-    
 }
 
 extension LQSwipeDemoView:LQSwipeViewDelegate{
     func swipeViewBeginDragging() {
+        print("开始拖拽")
     }
     
     func swipeViewEndDragging() {
+        print("停止拖拽")
     }
     
     func swipeView(swipeAtIndex index: Int) {
+        print("滚动到第\(index)个")
     }
     
     func swipeView(clickAtIndex index: Int) {
+        print("点击第\(index)个")
     }
 }
 

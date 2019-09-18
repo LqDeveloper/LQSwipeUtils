@@ -34,10 +34,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3hu-3c-Hha"/>
                     </view>
+                    <connections>
+                        <outlet property="swipeView" destination="qVp-7d-aI8" id="u5d-E5-38h"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyV-89-TbD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-203" y="246"/>
+            <point key="canvasLocation" x="-565" y="248"/>
         </scene>
     </scenes>
 </document>

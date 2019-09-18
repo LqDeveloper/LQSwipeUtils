@@ -24,7 +24,6 @@ public protocol LQSwipeViewDataSource:NSObjectProtocol{
 
 
 open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegate{
-    
     private let ViewTag = 10000
     
     open var leftView:ContentViewType
@@ -39,9 +38,8 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     
     open var clickEnable = false {
         didSet{
-            addGesture()
+            addOrRemoveGesture()
         }
-        
     }
     
     public var  currentIndex = 0
@@ -104,7 +102,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     
-    func addGesture(){
+    func addOrRemoveGesture(){
         if clickEnable{
             centerView.addGestureRecognizer(tapGesture)
         }else{
@@ -117,6 +115,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     
+    ///在必要的时候调用stopLoop，防止内存泄露
     public  func startLoop(){
         guard loop else{
             return
