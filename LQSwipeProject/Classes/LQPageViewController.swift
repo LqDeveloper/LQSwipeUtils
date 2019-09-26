@@ -49,7 +49,7 @@ open class LQPageViewController: UIPageViewController {
     }
     
     
-    func select(index: Int, animated: Bool = true) {
+    public func select(index: Int, animated: Bool = true) {
         if index >= 0 && index < pages.count {
             let prevPage = self.currentPage
             let direction: UIPageViewController.NavigationDirection = (index >= prevPage) ? .forward : .reverse
@@ -60,11 +60,11 @@ open class LQPageViewController: UIPageViewController {
         }
     }
     
-    func selectNextPage(animated: Bool = true) {
+    public func selectNextPage(animated: Bool = true) {
         self.select(index: self.currentPage + 1, animated: animated)
     }
     
-    func selectPreviousPage(animated: Bool = true) {
+    public  func selectPreviousPage(animated: Bool = true) {
         self.select(index: self.currentPage - 1, animated: animated)
     }
 }
@@ -112,7 +112,7 @@ extension LQPageViewController:UIPageViewControllerDataSource{
 }
 
 extension LQPageViewController:UIScrollViewDelegate{
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let point = scrollView.contentOffset
         let offsetFactor = (point.x - scrollView.bounds.size.width) / scrollView.bounds.size.width
         pageDelegate?.pageViewControllerDidScroll(pageOffset: CGFloat(self.currentPage) + offsetFactor)
