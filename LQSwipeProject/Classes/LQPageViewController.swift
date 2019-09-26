@@ -49,7 +49,7 @@ open class LQPageViewController: UIPageViewController {
     }
     
     
-    public func select(index: Int, animated: Bool = true) {
+    open func select(index: Int, animated: Bool = true) {
         if index >= 0 && index < pages.count {
             let prevPage = self.currentPage
             let direction: UIPageViewController.NavigationDirection = (index >= prevPage) ? .forward : .reverse
@@ -60,11 +60,11 @@ open class LQPageViewController: UIPageViewController {
         }
     }
     
-    public func selectNextPage(animated: Bool = true) {
+    open func selectNextPage(animated: Bool = true) {
         self.select(index: self.currentPage + 1, animated: animated)
     }
     
-    public  func selectPreviousPage(animated: Bool = true) {
+    open  func selectPreviousPage(animated: Bool = true) {
         self.select(index: self.currentPage - 1, animated: animated)
     }
 }
