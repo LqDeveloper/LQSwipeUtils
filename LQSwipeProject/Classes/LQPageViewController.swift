@@ -12,7 +12,7 @@ public enum LQPageScrollDirection{
 }
 
 public protocol LQPageViewControllerDelegate: NSObjectProtocol {
-    func pageViewControllerReset(viewController:UIViewController)
+    func pageViewControllerReset(viewController: UIViewController)
     func pageViewControllerDidSwitchTo(viewController:UIViewController,pageIndex: Int,direction:LQPageScrollDirection)
     func pageViewControllerDidScroll(pageOffset: CGFloat)
 }
@@ -86,6 +86,7 @@ open class LQPageViewController: UIPageViewController {
 extension LQPageViewController:UIPageViewControllerDelegate{
     open func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         panVc = pendingViewControllers.first
+        pageReset(viewController: panVc)
     }
     open func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard completed else {return}
@@ -104,14 +105,10 @@ extension LQPageViewController:UIPageViewControllerDataSource{
         if loop {
             let currentPage = pages.firstIndex(of: viewController)!
             let previousPage = (currentPage - 1) < 0 ? pages.count - 1 : currentPage - 1
-            let vc = pages[previousPage]
-            pageReset(viewController: vc)
-            return vc
+            return  pages[previousPage]
         } else {
             let previousPage = pages.firstIndex(of: viewController)! - 1
-            let vc = previousPage < 0 || previousPage >= pages.count ? nil : pages[previousPage]
-            pageReset(viewController: vc)
-            return vc
+            return previousPage < 0 || previousPage >= pages.count ? nil : pages[previousPage]
         }
     }
     
@@ -122,15 +119,11 @@ extension LQPageViewController:UIPageViewControllerDataSource{
         if loop {
             let currentPage = pages.firstIndex(of: viewController)!
             let nextPage = (currentPage + 1) > pages.count - 1 ? 0 : currentPage + 1
-            let vc = pages[nextPage]
-            pageReset(viewController: vc)
-            return vc
+            return pages[nextPage]
             
         } else {
             let nextPage = pages.firstIndex(of: viewController)! + 1
-            let vc = nextPage >= pages.count ? nil : pages[nextPage]
-            pageReset(viewController: vc)
-            return vc
+            return nextPage >= pages.count ? nil : pages[nextPage]
         }
     }
     
