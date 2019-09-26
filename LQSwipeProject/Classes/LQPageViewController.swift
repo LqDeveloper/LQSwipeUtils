@@ -60,10 +60,9 @@ open class LQPageViewController: UIPageViewController {
             let prevPage = self.currentPage
             let direction: UIPageViewController.NavigationDirection = (index >= prevPage) ? .forward : .reverse
             let vc = self.pages[index]
-            setViewControllers([vc], direction: direction, animated: animated, completion: { (completed) in
-                self.currentPage = index
-                self.pageDelegate?.pageViewControllerDidSwitchTo(viewController: vc,pageIndex: self.currentPage,direction: .unknown)
-            })
+            setViewControllers([vc], direction: direction, animated: animated, completion: nil)
+            currentPage = index
+            pageDelegate?.pageViewControllerDidSwitchTo(viewController: vc,pageIndex: self.currentPage,direction: .unknown)
         }
     }
     

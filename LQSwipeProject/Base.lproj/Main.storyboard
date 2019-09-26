@@ -54,7 +54,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="gSE-Oq-88G" customClass="LQCrclePageViewController" customModule="PageViewControllerDemo" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PDw-PN-XXJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-138" y="-506"/>
+            <point key="canvasLocation" x="314" y="-485"/>
         </scene>
     </scenes>
 </document>
