@@ -7,9 +7,13 @@
 //
 
 import UIKit
+public enum LQPageScrollDirection{
+    case left,right,unknown
+}
 
 public protocol LQPageViewControllerDelegate: NSObjectProtocol {
-    func pageViewControllerDidSwitchTo(pageIndex: Int)
+    func pageViewControllerReset(viewController:UIViewController)
+    func pageViewControllerDidSwitchTo(viewController:UIViewController,pageIndex: Int,direction:LQPageScrollDirection)
     func pageViewControllerDidScroll(pageOffset: CGFloat)
 }
 
@@ -19,6 +23,8 @@ open class LQPageViewController: UIPageViewController {
     open var currentPage = 0
     open var loop = false
     open var scrollView:UIScrollView?
+    open var panVc:UIViewController?
+    var direction:LQPageScrollDirection = .unknown
     open  var isScrollViewEnable = true{
         didSet{
             self.scrollView?.isScrollEnabled = self.isScrollViewEnable
@@ -56,6 +62,7 @@ open class LQPageViewController: UIPageViewController {
             let vc = self.pages[index]
             setViewControllers([vc], direction: direction, animated: animated, completion: { (completed) in
                 self.currentPage = index
+                self.pageDelegate?.pageViewControllerDidSwitchTo(viewController: vc,pageIndex: self.currentPage,direction: .unknown)
             })
         }
     }
@@ -67,16 +74,26 @@ open class LQPageViewController: UIPageViewController {
     open  func selectPreviousPage(animated: Bool = true) {
         self.select(index: self.currentPage - 1, animated: animated)
     }
+    
+    open func pageReset(viewController:UIViewController?){
+        guard let vc = viewController else {
+            return
+        }
+        pageDelegate?.pageViewControllerReset(viewController: vc)
+    }
 }
 
 extension LQPageViewController:UIPageViewControllerDelegate{
+    open func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        panVc = pendingViewControllers.first
+    }
     open func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard completed else {return}
-        guard let vcs =  pageViewController.viewControllers,let first = vcs.first else {
+        guard let vcs =  panVc,let first = self.pages.firstIndex(of: vcs) else {
             return
         }
-        self.currentPage = self.pages.firstIndex(of: first)!
-        pageDelegate?.pageViewControllerDidSwitchTo(pageIndex: self.currentPage)
+        currentPage = first
+        pageDelegate?.pageViewControllerDidSwitchTo(viewController: vcs,pageIndex: currentPage,direction: direction)
     }
 }
 extension LQPageViewController:UIPageViewControllerDataSource{
@@ -87,10 +104,14 @@ extension LQPageViewController:UIPageViewControllerDataSource{
         if loop {
             let currentPage = pages.firstIndex(of: viewController)!
             let previousPage = (currentPage - 1) < 0 ? pages.count - 1 : currentPage - 1
-            return pages[previousPage]
+            let vc = pages[previousPage]
+            pageReset(viewController: vc)
+            return vc
         } else {
             let previousPage = pages.firstIndex(of: viewController)! - 1
-            return previousPage < 0 || previousPage >= pages.count ? nil : pages[previousPage]
+            let vc = previousPage < 0 || previousPage >= pages.count ? nil : pages[previousPage]
+            pageReset(viewController: vc)
+            return vc
         }
     }
     
@@ -101,11 +122,15 @@ extension LQPageViewController:UIPageViewControllerDataSource{
         if loop {
             let currentPage = pages.firstIndex(of: viewController)!
             let nextPage = (currentPage + 1) > pages.count - 1 ? 0 : currentPage + 1
-            return pages[nextPage]
+            let vc = pages[nextPage]
+            pageReset(viewController: vc)
+            return vc
             
         } else {
             let nextPage = pages.firstIndex(of: viewController)! + 1
-            return nextPage >= pages.count ? nil : pages[nextPage]
+            let vc = nextPage >= pages.count ? nil : pages[nextPage]
+            pageReset(viewController: vc)
+            return vc
         }
     }
     
@@ -114,6 +139,11 @@ extension LQPageViewController:UIPageViewControllerDataSource{
 extension LQPageViewController:UIScrollViewDelegate{
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let point = scrollView.contentOffset
+        if point.x < UIScreen.main.bounds.size.width {
+            direction = .left
+        }else{
+            direction = .right
+        }
         let offsetFactor = (point.x - scrollView.bounds.size.width) / scrollView.bounds.size.width
         pageDelegate?.pageViewControllerDidScroll(pageOffset: CGFloat(self.currentPage) + offsetFactor)
     }

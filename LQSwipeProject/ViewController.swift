@@ -32,11 +32,15 @@ class ViewController: LQPageViewController {
 
 
 extension ViewController:LQPageViewControllerDelegate{
+    func pageViewControllerDidSwitchTo(viewController:UIViewController,pageIndex: Int,direction:LQPageScrollDirection) {
+        print(viewController,pageIndex,direction)
+    }
+    
     func pageViewControllerDidScroll(pageOffset: CGFloat) {
 //        print(pageOffset)
     }
-    func pageViewControllerDidSwitchTo(pageIndex: Int) {
-        print(pageIndex)
+    func pageViewControllerReset(viewController: UIViewController) {
+       
     }
 }
 
