@@ -26,7 +26,7 @@ class PageOneViewController: UIViewController {
         
         swipeView.swipeDelegate = self
         swipeView.swipeDataSource = self
-        swipeView.loop = true
+        swipeView.loop = false
         swipeView.timeInterval = 3
         swipeView.clickEnable = true
         swipeView.startLoop()

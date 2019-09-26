@@ -36,6 +36,9 @@ open class LQPageViewController: UIPageViewController {
         self.delegate = self
         self.dataSource = self
         //        只有Transition Stype 是 Scroll 时，才能获取到scroll
+        guard transitionStyle == .scroll else {
+            return
+        }
         for view in self.view.subviews {
             if let scrollView = view as? UIScrollView {
                 scrollView.delegate = self
@@ -69,8 +72,10 @@ open class LQPageViewController: UIPageViewController {
 extension LQPageViewController:UIPageViewControllerDelegate{
     open func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard completed else {return}
-        let vc = pageViewController.viewControllers!.first!
-        self.currentPage = self.pages.firstIndex(of: vc)!
+        guard let vcs =  pageViewController.viewControllers,let first = vcs.first else {
+            return
+        }
+        self.currentPage = self.pages.firstIndex(of: first)!
         pageDelegate?.pageViewControllerDidSwitchTo(pageIndex: self.currentPage)
     }
 }

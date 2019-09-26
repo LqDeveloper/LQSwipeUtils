@@ -23,7 +23,7 @@ class ViewController: LQPageViewController {
         pages.append(contentsOf: controllers)
         loop = true
         pageDelegate = self
-        isScrollViewEnable = false
+        isScrollViewEnable = true
         select(index: 0, animated: true)
     }
     
@@ -33,7 +33,7 @@ class ViewController: LQPageViewController {
 
 extension ViewController:LQPageViewControllerDelegate{
     func pageViewControllerDidScroll(pageOffset: CGFloat) {
-        print(pageOffset)
+//        print(pageOffset)
     }
     func pageViewControllerDidSwitchTo(pageIndex: Int) {
         print(pageIndex)
