@@ -22,21 +22,39 @@ public protocol LQSwipeViewDataSource:NSObjectProtocol{
 }
 
 
+public enum LQSwipeDirection:Int{
+    case horizontal_left = 0   //从右往左滚动
+    case horizontal_right = 1  //从左往右滚动
+    case vertical_up = 2       //从下往上滚动
+    case vertical_down = 3     //从上往下滚动
+}
+
 
 open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegate{
     private let ViewTag = 10000
     
-    open var leftView:ContentViewType
-    open var centerView:ContentViewType
-    open var rightView:ContentViewType
+    public var direction:LQSwipeDirection = .horizontal_left
     
-    open var tapGesture:UITapGestureRecognizer
+    @IBInspectable var directionValue:Int{
+        get{
+            return direction.rawValue
+        }
+        set{
+            direction = LQSwipeDirection.init(rawValue: newValue) ?? .horizontal_left
+        }
+    }
     
-    open var loop:Bool = false
-    open var timeInterval:TimeInterval = 3
+    public var leftView:ContentViewType
+    public var centerView:ContentViewType
+    public var rightView:ContentViewType
+    
+    public var tapGesture:UITapGestureRecognizer
+    
+    public var loop:Bool = false
+    public var timeInterval:TimeInterval = 3
     private var timer:Timer?
     
-    open var clickEnable = false {
+    public var clickEnable = false {
         didSet{
             addOrRemoveGesture()
         }
@@ -50,18 +68,15 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
             initContentView()
         }
     }
-    public convenience init(itemWidth:CGFloat){
-        self.init(frame:CGRect.init(x: 0, y: 0, width: itemWidth, height: 0))
-    }
-    
-    public override init(frame: CGRect) {
-        leftView = ContentViewType.init(frame: CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
-        centerView = ContentViewType.init(frame: CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height))
-        rightView = ContentViewType.init(frame: CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height))
+  
+    public init(frame: CGRect,direction:LQSwipeDirection = .horizontal_left) {
+        self.direction = direction
+        leftView = ContentViewType.init()
+        centerView = ContentViewType.init()
+        rightView = ContentViewType.init()
         tapGesture = UITapGestureRecognizer.init()
         super.init(frame: frame)
-        contentSize = CGSize.init(width: frame.size.width * 3, height: frame.size.height)
-        contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
+        makeLayout()
         initViews()
     }
     
@@ -72,6 +87,22 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
         tapGesture = UITapGestureRecognizer.init()
         super.init(coder: aDecoder)
         initViews()
+    }
+    
+    func makeLayout(){
+        if direction  == .horizontal_left || direction == .horizontal_right{
+            leftView.frame = CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+            centerView.frame = CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height)
+            rightView.frame = CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height)
+            contentSize = CGSize.init(width: frame.size.width * 3, height: frame.size.height)
+            contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
+        }else{
+            leftView.frame = CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+            centerView.frame = CGRect.init(x: 0, y: frame.size.height, width: frame.size.width, height: frame.size.height)
+            rightView.frame = CGRect.init(x:0, y: frame.size.height * 2, width: frame.size.width, height: frame.size.height)
+            contentSize = CGSize.init(width: frame.size.width, height: frame.size.height * 3)
+            contentOffset = CGPoint.init(x:0, y: frame.size.height)
+        }
     }
     
     public func initViews(){
@@ -97,11 +128,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     open override func layoutSubviews() {
         super.layoutSubviews()
         if leftView.frame.size.width == 0{
-            leftView.frame = CGRect.init(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
-            centerView.frame = CGRect.init(x: frame.size.width, y: 0, width: frame.size.width, height: frame.size.height)
-            rightView.frame = CGRect.init(x: frame.size.width * 2, y: 0, width: frame.size.width, height: frame.size.height)
-            contentSize = CGSize.init(width: frame.size.width * 3, height: frame.size.height)
-            contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
+            makeLayout()
         }
     }
     
@@ -145,7 +172,15 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     @objc func selectNextPage(timer:Timer) {
-        setContentOffset(CGPoint.init(x: bounds.size.width * 2, y: 0), animated: true)
+        if direction == .horizontal_left {
+            setContentOffset(CGPoint.init(x: bounds.size.width * 2, y: 0), animated: true)
+        }else if direction == .horizontal_right {
+            setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+        }else if direction == .vertical_up {
+            setContentOffset(CGPoint.init(x: 0, y: bounds.size.height * 2), animated: true)
+        }else{
+            setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+        }
     }
     
     // MARK:UIScrollViewDelegate
@@ -223,12 +258,21 @@ extension LQSwipeView{
         centerView.tag = centerIndex + ViewTag
         rightView.tag = rightIndex + ViewTag
         currentIndex = centerIndex
-        contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
+        if direction == .horizontal_left || direction == .horizontal_right {
+            contentOffset = CGPoint.init(x: bounds.size.width, y: 0)
+        }else{
+            contentOffset = CGPoint.init(x: 0, y: bounds.size.height)
+        }
     }
     
     public func getFlag()->Int{
         var flag = 0
-        let index = contentOffset.x / bounds.size.width;
+        var index:CGFloat = 0
+        if direction == .horizontal_left || direction == .horizontal_right {
+            index = contentOffset.x / bounds.size.width
+        }else{
+            index = contentOffset.y / bounds.size.height
+        }
         if (index == 0) {
             flag = -1;
         }else if(index == 2){

@@ -10,7 +10,9 @@ import UIKit
 import SnapKit
 class PageOneViewController: UIViewController {
 //    var swipeView = LQSwipeView.init(frame: CGRect.init(x: 0, y: 100, width: UIScreen.main.bounds.size.width, height: 300))
-    var swipeView = LQSwipeView.init(itemWidth: UIScreen.main.bounds.size.width)
+    var swipeView = LQSwipeView.init(frame: CGRect.zero,direction: .horizontal_right)
+    
+    var verticalSwipeView = LQSwipeView.init(frame: CGRect.zero,direction: .vertical_down)
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -19,17 +21,35 @@ class PageOneViewController: UIViewController {
         
         swipeView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.top.equalToSuperview().offset(200)
+            make.top.equalToSuperview()
             make.height.equalTo(300)
         }
         
         
         swipeView.swipeDelegate = self
         swipeView.swipeDataSource = self
-        swipeView.loop = false
+        swipeView.loop = true
         swipeView.timeInterval = 3
         swipeView.clickEnable = true
         swipeView.startLoop()
+        
+        
+        view.addSubview(verticalSwipeView)
+        
+        verticalSwipeView.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.top.equalToSuperview().offset(320)
+            make.height.equalTo(300)
+        }
+        
+        
+        verticalSwipeView.swipeDelegate = self
+        verticalSwipeView.swipeDataSource = self
+        verticalSwipeView.loop = true
+        verticalSwipeView.timeInterval = 3
+        verticalSwipeView.clickEnable = true
+        verticalSwipeView.startLoop()
+        
     }
     
     
@@ -57,7 +77,7 @@ extension PageOneViewController:LQSwipeViewDelegate{
 
 extension PageOneViewController:LQSwipeViewDataSource{
     func swipeViewPageCount() -> Int {
-        return 2
+        return 3
     }
     
     func swipeView(contentView: UIView, viewAtIndex index: Int) {
