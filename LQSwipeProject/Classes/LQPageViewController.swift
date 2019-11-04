@@ -20,7 +20,7 @@ public protocol LQPageViewControllerDelegate: NSObjectProtocol {
 }
 
 
-extension LQPageViewControllerDelegate{
+public extension LQPageViewControllerDelegate{
     func pageViewControllerReset(viewController: UIViewController){}
     func pageViewControllerDidSwitchTo(viewController:UIViewController,pageIndex: Int,direction:LQPageScrollDirection){}
     func pageViewControllerDidScroll(pageOffset: CGFloat,direction:LQPageScrollDirection){}
