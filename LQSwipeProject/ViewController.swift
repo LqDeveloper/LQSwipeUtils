@@ -21,10 +21,10 @@ class ViewController: LQPageViewController {
         controllers.append(pageTwo)
         controllers.append(pageThree)
         pages.append(contentsOf: controllers)
-        loop = true
+        loop = false
         pageDelegate = self
         isScrollViewEnable = true
-        select(index: 0, animated: true)
+        selectPage(0)
     }
     
     
@@ -36,11 +36,19 @@ extension ViewController:LQPageViewControllerDelegate{
         print(viewController,pageIndex,direction)
     }
     
-    func pageViewControllerDidScroll(pageOffset: CGFloat) {
-//        print(pageOffset)
+    func pageViewControllerDidScroll(pageOffset: CGFloat,direction:LQPageScrollDirection) {
+        print(pageOffset,direction)
     }
     func pageViewControllerReset(viewController: UIViewController) {
        
+    }
+    
+    func pageViewControllerStartScroll() {
+        print("开始滚动")
+    }
+    
+    func pageViewControllerEndScroll() {
+        print("停止滚动")
     }
 }
 

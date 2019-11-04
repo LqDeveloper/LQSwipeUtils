@@ -15,6 +15,13 @@ public protocol LQSwipeViewDelegate:NSObjectProtocol{
     func swipeView(clickAtIndex index:Int)
 }
 
+public extension LQSwipeViewDelegate{
+    func swipeViewBeginDragging(){}
+    func swipeViewEndDragging(){}
+    func swipeView(swipeAtIndex index:Int){}
+    func swipeView(clickAtIndex index:Int){}
+}
+
 
 public protocol LQSwipeViewDataSource:NSObjectProtocol{
     func swipeViewPageCount()->Int
@@ -68,7 +75,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
             initContentView()
         }
     }
-  
+    
     public init(frame: CGRect,direction:LQSwipeDirection = .horizontal_left) {
         self.direction = direction
         leftView = ContentViewType.init()
@@ -184,22 +191,22 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     // MARK:UIScrollViewDelegate
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         stopLoop()
         swipeDelegate?.swipeViewBeginDragging()
     }
     
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         startLoop()
         swipeDelegate?.swipeViewEndDragging()
     }
     
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         updateViews()
         swipeDelegate?.swipeView(swipeAtIndex: currentIndex)
     }
     
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updateViews()
         swipeDelegate?.swipeView(swipeAtIndex: currentIndex)
     }

@@ -14,11 +14,26 @@ public enum LQPageScrollDirection{
 public protocol LQPageViewControllerDelegate: NSObjectProtocol {
     func pageViewControllerReset(viewController: UIViewController)
     func pageViewControllerDidSwitchTo(viewController:UIViewController,pageIndex: Int,direction:LQPageScrollDirection)
-    func pageViewControllerDidScroll(pageOffset: CGFloat)
+    func pageViewControllerDidScroll(pageOffset: CGFloat,direction:LQPageScrollDirection)
+    func pageViewControllerStartScroll()
+    func pageViewControllerEndScroll()
+}
+
+
+extension LQPageViewControllerDelegate{
+    func pageViewControllerReset(viewController: UIViewController){}
+    func pageViewControllerDidSwitchTo(viewController:UIViewController,pageIndex: Int,direction:LQPageScrollDirection){}
+    func pageViewControllerDidScroll(pageOffset: CGFloat,direction:LQPageScrollDirection){}
+    func pageViewControllerStartScroll(){}
+    func pageViewControllerEndScroll(){}
 }
 
 
 open class LQPageViewController: UIPageViewController {
+    public var isBeginScroll = false
+    /// tableView在显示时会调用scrollViewDidScroll方法导致状态不准，这个标记表示拖拽之后才是有效的
+    public var isInitState = false
+    
     open var pages = [UIViewController]()
     open var currentPage = 0
     open var loop = false
@@ -55,7 +70,7 @@ open class LQPageViewController: UIPageViewController {
     }
     
     
-    open func select(index: Int, animated: Bool = true) {
+    open func selectPage(_ index: Int, animated: Bool = true) {
         if index >= 0 && index < pages.count {
             let prevPage = self.currentPage
             let direction: UIPageViewController.NavigationDirection = (index >= prevPage) ? .forward : .reverse
@@ -67,11 +82,11 @@ open class LQPageViewController: UIPageViewController {
     }
     
     open func selectNextPage(animated: Bool = true) {
-        self.select(index: self.currentPage + 1, animated: animated)
+        selectPage(self.currentPage + 1, animated: animated)
     }
     
     open  func selectPreviousPage(animated: Bool = true) {
-        self.select(index: self.currentPage - 1, animated: animated)
+        selectPage(self.currentPage - 1, animated: animated)
     }
     
     open func pageReset(viewController:UIViewController?){
@@ -137,6 +152,44 @@ extension LQPageViewController:UIScrollViewDelegate{
             direction = .right
         }
         let offsetFactor = (point.x - scrollView.bounds.size.width) / scrollView.bounds.size.width
-        pageDelegate?.pageViewControllerDidScroll(pageOffset: CGFloat(self.currentPage) + offsetFactor)
+        pageDelegate?.pageViewControllerDidScroll(pageOffset: CGFloat(self.currentPage) + offsetFactor,direction: direction)
+        
+        guard isInitState else{
+            return
+        }
+        guard !isBeginScroll else {
+            return
+        }
+        isBeginScroll = true
+        pageDelegate?.pageViewControllerStartScroll()
+    }
+    
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard isBeginScroll else {
+            return
+        }
+        isBeginScroll = false
+        pageDelegate?.pageViewControllerEndScroll()
+    }
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if !isInitState{
+            isInitState = true
+        }
+        guard !isBeginScroll else {
+            return
+        }
+        isBeginScroll = true
+        pageDelegate?.pageViewControllerStartScroll()
+    }
+    
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard isBeginScroll else {
+            return
+        }
+        guard !decelerate else {
+            return
+        }
+        isBeginScroll = false
+        pageDelegate?.pageViewControllerEndScroll()
     }
 }
