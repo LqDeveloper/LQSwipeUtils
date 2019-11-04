@@ -123,6 +123,10 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
         centerView.autoresizingMask = [.flexibleLeftMargin,.flexibleHeight]
         rightView.autoresizingMask = [.flexibleLeftMargin,.flexibleHeight]
         
+        leftView.isUserInteractionEnabled = true
+        centerView.isUserInteractionEnabled = true
+        rightView.isUserInteractionEnabled = true
+        
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
         if #available(iOS 11.0, *){
