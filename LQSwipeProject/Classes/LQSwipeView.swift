@@ -234,11 +234,7 @@ extension LQSwipeView{
             centerIndex = 0
             rightIndex = 0
             isScrollEnabled = false
-        }else if pageCount == 2{
-            leftIndex = 1
-            centerIndex = 0
-            rightIndex = 1
-        }else if pageCount >= 3{
+        }else if pageCount >= 2{
             leftIndex = pageCount - 1
             centerIndex = 0
             rightIndex = 1
