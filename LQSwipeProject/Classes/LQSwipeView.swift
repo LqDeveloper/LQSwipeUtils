@@ -72,7 +72,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     public weak var swipeDelegate:LQSwipeViewDelegate?
     public weak var swipeDataSource:LQSwipeViewDataSource?{
         didSet{
-            initContentView()
+            reloadData()
         }
     }
     
@@ -218,8 +218,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
 
 
 extension LQSwipeView{
-    
-    public func initContentView() {
+    public func reloadData() {
         var leftIndex = 0,centerIndex = 0,rightIndex = 0
         guard let pageCount = swipeDataSource?.swipeViewPageCount() else{
             return
