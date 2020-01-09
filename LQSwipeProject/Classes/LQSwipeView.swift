@@ -163,6 +163,10 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
             return
         }
         
+        guard let pageCount = swipeDataSource?.swipeViewPageCount(), pageCount <= 1 else{
+            return
+        }
+        
         if timer != nil {
             return
         }
@@ -224,9 +228,7 @@ extension LQSwipeView{
             return
         }
         if pageCount <= 0{
-            leftIndex = -1
-            centerIndex = -1
-            rightIndex = -1
+            return
         }else if pageCount == 1{
             leftIndex = 0
             centerIndex = 0
@@ -249,7 +251,6 @@ extension LQSwipeView{
         swipeDataSource?.swipeView(contentView: leftView, viewAtIndex: leftIndex)
         swipeDataSource?.swipeView(contentView: centerView, viewAtIndex: centerIndex)
         swipeDataSource?.swipeView(contentView: rightView, viewAtIndex: rightIndex)
-        startLoop()
     }
     
     
