@@ -163,7 +163,7 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
             return
         }
         
-        guard let pageCount = swipeDataSource?.swipeViewPageCount(), pageCount <= 1 else{
+        guard let pageCount = swipeDataSource?.swipeViewPageCount(), pageCount > 1 else{
             return
         }
         
