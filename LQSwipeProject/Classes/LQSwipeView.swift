@@ -9,15 +9,17 @@
 import UIKit
 
 public protocol LQSwipeViewDelegate:NSObjectProtocol{
-    func swipeViewBeginDragging()
-    func swipeViewEndDragging()
+    func swipeViewWillBeginDragging()
+    func swipeViewDidEndDragging()
+    func swipeViewDidScroll(contentOffset:CGPoint)
     func swipeView(swipeAtIndex index:Int)
     func swipeView(clickAtIndex index:Int)
 }
 
 public extension LQSwipeViewDelegate{
-    func swipeViewBeginDragging(){}
-    func swipeViewEndDragging(){}
+    func swipeViewWillBeginDragging(){}
+    func swipeViewDidEndDragging(){}
+    func swipeViewDidScroll(contentOffset:CGPoint){}
     func swipeView(swipeAtIndex index:Int){}
     func swipeView(clickAtIndex index:Int){}
 }
@@ -88,9 +90,9 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        leftView = ContentViewType.init(frame: CGRect.zero)
-        centerView = ContentViewType.init(frame: CGRect.zero)
-        rightView = ContentViewType.init(frame: CGRect.zero)
+        leftView = ContentViewType.init()
+        centerView = ContentViewType.init()
+        rightView = ContentViewType.init()
         tapGesture = UITapGestureRecognizer.init()
         super.init(coder: aDecoder)
         initViews()
@@ -186,42 +188,6 @@ open class LQSwipeView<ContentViewType:UIView>: UIScrollView,UIScrollViewDelegat
         timer = nil
     }
     
-    @objc func selectNextPage(timer:Timer) {
-        if direction == .horizontal_left {
-            setContentOffset(CGPoint.init(x: bounds.size.width * 2, y: 0), animated: true)
-        }else if direction == .horizontal_right {
-            setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
-        }else if direction == .vertical_up {
-            setContentOffset(CGPoint.init(x: 0, y: bounds.size.height * 2), animated: true)
-        }else{
-            setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
-        }
-    }
-    
-    // MARK:UIScrollViewDelegate
-    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        stopLoop()
-        swipeDelegate?.swipeViewBeginDragging()
-    }
-    
-    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        startLoop()
-        swipeDelegate?.swipeViewEndDragging()
-    }
-    
-    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        updateViews()
-        swipeDelegate?.swipeView(swipeAtIndex: currentIndex)
-    }
-    
-    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        updateViews()
-        swipeDelegate?.swipeView(swipeAtIndex: currentIndex)
-    }
-}
-
-
-extension LQSwipeView{
     public func reloadData() {
         var leftIndex = 0,centerIndex = 0,rightIndex = 0
         guard let pageCount = swipeDataSource?.swipeViewPageCount() else{
@@ -272,7 +238,7 @@ extension LQSwipeView{
         }
     }
     
-    public func getFlag()->Int{
+    private func getFlag()->Int{
         var flag = 0
         var index:CGFloat = 0
         if direction == .horizontal_left || direction == .horizontal_right {
@@ -288,7 +254,7 @@ extension LQSwipeView{
         return flag
     }
     
-    public func checkIndex(viewTag:Int)->Int{
+    private func checkIndex(viewTag:Int)->Int{
         guard let pageCount = swipeDataSource?.swipeViewPageCount() else{
             return 0
         }
@@ -299,6 +265,43 @@ extension LQSwipeView{
             return 0
         }
         return index
+    }
+    
+    @objc func selectNextPage(timer:Timer) {
+        if direction == .horizontal_left {
+            setContentOffset(CGPoint.init(x: bounds.size.width * 2, y: 0), animated: true)
+        }else if direction == .horizontal_right {
+            setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+        }else if direction == .vertical_up {
+            setContentOffset(CGPoint.init(x: 0, y: bounds.size.height * 2), animated: true)
+        }else{
+            setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+        }
+    }
+    
+    // MARK:UIScrollViewDelegate
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        stopLoop()
+        swipeDelegate?.swipeViewWillBeginDragging()
+    }
+    
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        startLoop()
+        swipeDelegate?.swipeViewDidEndDragging()
+    }
+    
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        updateViews()
+        swipeDelegate?.swipeView(swipeAtIndex: currentIndex)
+    }
+    
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        updateViews()
+        swipeDelegate?.swipeView(swipeAtIndex: currentIndex)
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        swipeDelegate?.swipeViewDidScroll(contentOffset: scrollView.contentOffset)
     }
 }
 
